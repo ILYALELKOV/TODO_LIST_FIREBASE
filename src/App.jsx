@@ -16,35 +16,18 @@ import { Loader } from './components/Loader/Loader.jsx'
 export const App = () => {
 	const [isLoading, setIsLoading] = useState(true)
 	const [inputValue, setInputValue] = useState('')
-	const [refreshTasks, setRefreshTasks] = useState(false)
 	const [searchValue, setSearchValue] = useState('')
 	const [, setDebouncedSearchTerm] = useState('')
 	const [sortedTodos, setSortedTodos] = useState(false)
 
-	const TODO_DB = 'http://localhost:3005/posts'
-
 	const { handleClickChangeTask, isModalOpen, setIsModalOpen } =
 		useRequestClickChangeTask()
 
-	const { requestDeleteTask } = useRequestDeleteTask(
-		TODO_DB,
-		setRefreshTasks,
-		refreshTasks
-	)
+	const { requestDeleteTask } = useRequestDeleteTask()
 
-	const { requestAddTask } = useRequestAddTask(
-		TODO_DB,
-		setRefreshTasks,
-		refreshTasks,
-		setInputValue
-	)
+	const { requestAddTask } = useRequestAddTask(setInputValue)
 
-	const { requestChangeTask } = useRequestChangeTask(
-		TODO_DB,
-		isModalOpen,
-		setRefreshTasks,
-		refreshTasks
-	)
+	const { requestChangeTask } = useRequestChangeTask(isModalOpen)
 
 	const { todos, setTodos } = useRequestGetTasks(setIsLoading)
 

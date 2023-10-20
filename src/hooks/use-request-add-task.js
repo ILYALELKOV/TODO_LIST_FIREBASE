@@ -1,12 +1,7 @@
 import { ref, push } from 'firebase/database'
 import { db } from '../fireBase.js'
 
-export const useRequestAddTask = (
-	TODO_DB,
-	setRefreshTasks,
-	refreshTasks,
-	setInputValue
-) => {
+export const useRequestAddTask = (setInputValue) => {
 	const requestAddTask = (task) => {
 		event.preventDefault()
 		task = task.trim()
