@@ -1,3 +1,6 @@
+import { ref, set } from 'firebase/database'
+import { db } from '../fireBase.js'
+
 export const useRequestChangeTask = (
 	TODO_DB,
 	isModalOpen,
@@ -7,10 +10,9 @@ export const useRequestChangeTask = (
 	const requestChangeTask = () => {
 		isModalOpen.taskValue = isModalOpen.taskValue.trim()
 		if (isModalOpen.taskValue.length > 0) {
-			fetch(`${TODO_DB}/${isModalOpen.idTask}`, {
-				method: 'PUT',
-				headers: { 'Content-Type': 'application/json;charset=utf-8' },
-				body: JSON.stringify({ title: isModalOpen.taskValue })
+			const taskDbRef = ref(db, `posts/${isModalOpen.idTask}`)
+			set(taskDbRef, {
+				title: isModalOpen.taskValue
 			}).then(() => setRefreshTasks(!refreshTasks))
 		}
 	}

@@ -1,20 +1,19 @@
 import { useEffect, useState } from 'react'
+import { ref, onValue } from 'firebase/database'
+import { db } from '../fireBase.js'
 
-export const useRequestGetTasks = (setIsLoading, TODO_DB, refreshTasks) => {
+export const useRequestGetTasks = (setIsLoading) => {
 	const [todos, setTodos] = useState([])
 	useEffect(() => {
-		setIsLoading(true)
-		fetch(TODO_DB)
-			.then((response) => {
-				if (!response.ok) {
-					throw new Error('Network error')
-				}
-				return response.json()
-			})
-			.then((data) => setTodos(data))
-			.catch((error) => console.warn(error))
-			.finally(() => setIsLoading(false))
-	}, [refreshTasks])
+		const tasksDbRef = ref(db, 'posts')
+
+		return onValue(tasksDbRef, (snapshot) => {
+			const loadedTasks = snapshot.val() || {}
+			setTodos(loadedTasks)
+			setIsLoading(false)
+		})
+	}, [])
+
 	return {
 		todos,
 		setTodos

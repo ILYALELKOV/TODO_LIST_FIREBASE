@@ -4,7 +4,7 @@ export const SearchForm = ({ searchValue, setSearchValue, todos }) => {
 	return (
 		<form className="search_container">
 			<input
-				disabled={todos.length <= 0}
+				disabled={Object.keys(todos).length <= 0}
 				value={searchValue}
 				type="text"
 				className="search_input"
@@ -18,5 +18,5 @@ export const SearchForm = ({ searchValue, setSearchValue, todos }) => {
 SearchForm.propTypes = {
 	searchValue: PropTypes.string,
 	setSearchValue: PropTypes.func,
-	todos: PropTypes.array
+	todos: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
 }

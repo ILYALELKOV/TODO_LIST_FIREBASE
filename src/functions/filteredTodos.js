@@ -1,7 +1,6 @@
 export const FilteredTodos = (todos, searchValue) => {
-	const filteredTodos = todos.filter((todo) => {
-		return todo.title.toLowerCase().includes(searchValue.toLowerCase())
+	const filteredTodos = Object.entries(todos).filter(([id, { title }]) => {
+		return title.toLowerCase().includes(searchValue.toLowerCase())
 	})
-
 	return { filteredTodos }
 }

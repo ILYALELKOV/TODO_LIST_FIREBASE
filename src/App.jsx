@@ -11,9 +11,10 @@ import { useRequestGetTasks } from './hooks'
 import { SortTasks } from './functions'
 import { FilteredTodos } from './functions'
 import { useRequestClickChangeTask } from './hooks'
+import { Loader } from './components/Loader/Loader.jsx'
 
 export const App = () => {
-	const [isLoading, setIsLoading] = useState(false)
+	const [isLoading, setIsLoading] = useState(true)
 	const [inputValue, setInputValue] = useState('')
 	const [refreshTasks, setRefreshTasks] = useState(false)
 	const [searchValue, setSearchValue] = useState('')
@@ -45,11 +46,7 @@ export const App = () => {
 		refreshTasks
 	)
 
-	const { todos, setTodos } = useRequestGetTasks(
-		setIsLoading,
-		TODO_DB,
-		refreshTasks
-	)
+	const { todos, setTodos } = useRequestGetTasks(setIsLoading)
 
 	const { handleSortTasks } = SortTasks(setSortedTodos, sortedTodos, setTodos)
 
@@ -93,11 +90,11 @@ export const App = () => {
 				Sort todos
 			</Button>
 			{isLoading ? (
-				<div className="loading">Loading...</div>
-			) : todos.length > 0 ? (
+				<Loader />
+			) : filteredTodos.length > 0 ? (
 				filteredTodos.map((todo) => (
 					<TodoItem
-						key={todo.id}
+						key={todo[0]}
 						todo={todo}
 						onClickChange={handleClickChangeTask}
 						onClickDelete={requestDeleteTask}
